@@ -70,8 +70,6 @@ model = LSTMFreq(EMBEDDING_DIM, HIDDEN_DIM, tags)
 loss_function = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.1)
 
-loss_meter = Meter()
-acc_meter = Meter()
 
 for epoch in range(NUM_EPOCHS):  # again, normally you would NOT do 300 epochs, it is toy data
     running_loss = 0.0
