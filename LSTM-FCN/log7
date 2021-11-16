@@ -1,0 +1,1787 @@
+2021-09-26 00:00:24.900403: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2021-09-26 00:00:24.900463: E tensorflow/stream_executor/cuda/cuda_driver.cc:313] failed call to cuInit: UNKNOWN ERROR (303)
+2021-09-26 00:00:24.900490: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (red-aghast): /proc/driver/nvidia/version does not exist
+2021-09-26 00:00:24.900728: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2021-09-26 00:00:24.919615: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 2899885000 Hz
+2021-09-26 00:00:24.919912: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x7f9c78000b60 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-09-26 00:00:24.919942: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+Num datasets :  128
+
+Model: "model_1"
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 1, 70)        0                                            
+__________________________________________________________________________________________________
+permute_1 (Permute)             (None, 70, 1)        0           input_1[0][0]                    
+__________________________________________________________________________________________________
+conv1d_1 (Conv1D)               (None, 70, 128)      1152        permute_1[0][0]                  
+__________________________________________________________________________________________________
+batch_normalization_1 (BatchNor (None, 70, 128)      512         conv1d_1[0][0]                   
+__________________________________________________________________________________________________
+activation_1 (Activation)       (None, 70, 128)      0           batch_normalization_1[0][0]      
+__________________________________________________________________________________________________
+conv1d_2 (Conv1D)               (None, 70, 256)      164096      activation_1[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_2 (BatchNor (None, 70, 256)      1024        conv1d_2[0][0]                   
+__________________________________________________________________________________________________
+activation_2 (Activation)       (None, 70, 256)      0           batch_normalization_2[0][0]      
+__________________________________________________________________________________________________
+conv1d_3 (Conv1D)               (None, 70, 128)      98432       activation_2[0][0]               
+__________________________________________________________________________________________________
+batch_normalization_3 (BatchNor (None, 70, 128)      512         conv1d_3[0][0]                   
+__________________________________________________________________________________________________
+lstm_1 (LSTM)                   (None, 128)          101888      input_1[0][0]                    
+__________________________________________________________________________________________________
+activation_3 (Activation)       (None, 70, 128)      0           batch_normalization_3[0][0]      
+__________________________________________________________________________________________________
+dropout_1 (Dropout)             (None, 128)          0           lstm_1[0][0]                     
+__________________________________________________________________________________________________
+global_average_pooling1d_1 (Glo (None, 128)          0           activation_3[0][0]               
+__________________________________________________________________________________________________
+concatenate_1 (Concatenate)     (None, 256)          0           dropout_1[0][0]                  
+                                                                 global_average_pooling1d_1[0][0] 
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 1)            257         concatenate_1[0][0]              
+==================================================================================================
+Total params: 367,873
+Trainable params: 366,849
+Non-trainable params: 1,024
+__________________________________________________________________________________________________
+******************** Training model for dataset  ********************
+Finished loading train dataset..
+Finished loading test dataset..
+
+Number of train samples :  23436 Number of test samples :  5040
+Sequence length :  70
+Train on 23436 samples, validate on 5040 samples
+Epoch 1/2000
+ - 32s - loss: 99984.0252 - val_loss: 92180.1817
+
+Epoch 00001: loss improved from inf to 99984.02516, saving model to ./weights/_weights.h5
+Epoch 2/2000
+ - 33s - loss: 83471.5630 - val_loss: 75477.4263
+
+Epoch 00002: loss improved from 99984.02516 to 83471.56297, saving model to ./weights/_weights.h5
+Epoch 3/2000
+ - 33s - loss: 58262.3489 - val_loss: 47943.1100
+
+Epoch 00003: loss improved from 83471.56297 to 58262.34890, saving model to ./weights/_weights.h5
+Epoch 4/2000
+ - 33s - loss: 34623.3084 - val_loss: 25911.7342
+
+Epoch 00004: loss improved from 58262.34890 to 34623.30839, saving model to ./weights/_weights.h5
+Epoch 5/2000
+ - 33s - loss: 19215.3889 - val_loss: 18758.0536
+
+Epoch 00005: loss improved from 34623.30839 to 19215.38889, saving model to ./weights/_weights.h5
+Epoch 6/2000
+ - 33s - loss: 12132.6848 - val_loss: 25809.7486
+
+Epoch 00006: loss improved from 19215.38889 to 12132.68479, saving model to ./weights/_weights.h5
+Epoch 7/2000
+ - 33s - loss: 9930.0784 - val_loss: 12355.2351
+
+Epoch 00007: loss improved from 12132.68479 to 9930.07836, saving model to ./weights/_weights.h5
+Epoch 8/2000
+ - 33s - loss: 9133.3589 - val_loss: 18308.6882
+
+Epoch 00008: loss improved from 9930.07836 to 9133.35886, saving model to ./weights/_weights.h5
+Epoch 9/2000
+ - 33s - loss: 8863.5759 - val_loss: 9946.5748
+
+Epoch 00009: loss improved from 9133.35886 to 8863.57590, saving model to ./weights/_weights.h5
+Epoch 10/2000
+ - 33s - loss: 8632.8473 - val_loss: 18875.1130
+
+Epoch 00010: loss improved from 8863.57590 to 8632.84726, saving model to ./weights/_weights.h5
+Epoch 11/2000
+ - 33s - loss: 8584.5996 - val_loss: 9524.6113
+
+Epoch 00011: loss improved from 8632.84726 to 8584.59964, saving model to ./weights/_weights.h5
+Epoch 12/2000
+ - 33s - loss: 8366.7670 - val_loss: 26985.3697
+
+Epoch 00012: loss improved from 8584.59964 to 8366.76703, saving model to ./weights/_weights.h5
+Epoch 13/2000
+ - 33s - loss: 8376.0295 - val_loss: 17136.7386
+
+Epoch 00013: loss did not improve from 8366.76703
+Epoch 14/2000
+ - 33s - loss: 8181.3643 - val_loss: 8379.3365
+
+Epoch 00014: loss improved from 8366.76703 to 8181.36429, saving model to ./weights/_weights.h5
+Epoch 15/2000
+ - 33s - loss: 8157.5158 - val_loss: 12214.0320
+
+Epoch 00015: loss improved from 8181.36429 to 8157.51583, saving model to ./weights/_weights.h5
+Epoch 16/2000
+ - 33s - loss: 8053.7506 - val_loss: 8368.1835
+
+Epoch 00016: loss improved from 8157.51583 to 8053.75065, saving model to ./weights/_weights.h5
+Epoch 17/2000
+ - 33s - loss: 8066.5430 - val_loss: 8569.4449
+
+Epoch 00017: loss did not improve from 8053.75065
+Epoch 18/2000
+ - 33s - loss: 8017.6521 - val_loss: 8344.1090
+
+Epoch 00018: loss improved from 8053.75065 to 8017.65214, saving model to ./weights/_weights.h5
+Epoch 19/2000
+ - 33s - loss: 7941.4165 - val_loss: 11449.9159
+
+Epoch 00019: loss improved from 8017.65214 to 7941.41646, saving model to ./weights/_weights.h5
+Epoch 20/2000
+ - 35s - loss: 7849.2126 - val_loss: 8707.5452
+
+Epoch 00020: loss improved from 7941.41646 to 7849.21262, saving model to ./weights/_weights.h5
+Epoch 21/2000
+ - 34s - loss: 7819.9207 - val_loss: 8630.1479
+
+Epoch 00021: loss improved from 7849.21262 to 7819.92073, saving model to ./weights/_weights.h5
+Epoch 22/2000
+ - 34s - loss: 7902.6440 - val_loss: 8475.7880
+
+Epoch 00022: loss did not improve from 7819.92073
+Epoch 23/2000
+ - 34s - loss: 7819.4359 - val_loss: 16913.8371
+
+Epoch 00023: loss improved from 7819.92073 to 7819.43590, saving model to ./weights/_weights.h5
+Epoch 24/2000
+ - 34s - loss: 7697.8214 - val_loss: 7922.6047
+
+Epoch 00024: loss improved from 7819.43590 to 7697.82143, saving model to ./weights/_weights.h5
+Epoch 25/2000
+ - 33s - loss: 7612.2688 - val_loss: 13695.2504
+
+Epoch 00025: loss improved from 7697.82143 to 7612.26879, saving model to ./weights/_weights.h5
+Epoch 26/2000
+ - 33s - loss: 7607.9240 - val_loss: 8037.7993
+
+Epoch 00026: loss improved from 7612.26879 to 7607.92396, saving model to ./weights/_weights.h5
+Epoch 27/2000
+ - 34s - loss: 7638.8249 - val_loss: 11141.4290
+
+Epoch 00027: loss did not improve from 7607.92396
+Epoch 28/2000
+ - 33s - loss: 7566.1041 - val_loss: 8138.0546
+
+Epoch 00028: loss improved from 7607.92396 to 7566.10413, saving model to ./weights/_weights.h5
+Epoch 29/2000
+ - 33s - loss: 7430.5888 - val_loss: 8443.0189
+
+Epoch 00029: loss improved from 7566.10413 to 7430.58882, saving model to ./weights/_weights.h5
+Epoch 30/2000
+ - 34s - loss: 7467.2205 - val_loss: 7757.8517
+
+Epoch 00030: loss did not improve from 7430.58882
+Epoch 31/2000
+ - 34s - loss: 7373.2523 - val_loss: 9256.9306
+
+Epoch 00031: loss improved from 7430.58882 to 7373.25231, saving model to ./weights/_weights.h5
+Epoch 32/2000
+ - 34s - loss: 7345.3217 - val_loss: 14772.5841
+
+Epoch 00032: loss improved from 7373.25231 to 7345.32172, saving model to ./weights/_weights.h5
+Epoch 33/2000
+ - 34s - loss: 7491.0194 - val_loss: 7672.1823
+
+Epoch 00033: loss did not improve from 7345.32172
+Epoch 34/2000
+ - 34s - loss: 7278.3981 - val_loss: 7980.2385
+
+Epoch 00034: loss improved from 7345.32172 to 7278.39806, saving model to ./weights/_weights.h5
+Epoch 35/2000
+ - 33s - loss: 7289.4488 - val_loss: 11137.8497
+
+Epoch 00035: loss did not improve from 7278.39806
+Epoch 36/2000
+ - 33s - loss: 7238.9749 - val_loss: 21463.7697
+
+Epoch 00036: loss improved from 7278.39806 to 7238.97487, saving model to ./weights/_weights.h5
+Epoch 37/2000
+ - 34s - loss: 7155.8381 - val_loss: 11001.6975
+
+Epoch 00037: loss improved from 7238.97487 to 7155.83813, saving model to ./weights/_weights.h5
+Epoch 38/2000
+ - 34s - loss: 7214.7995 - val_loss: 12174.3866
+
+Epoch 00038: loss did not improve from 7155.83813
+Epoch 39/2000
+ - 34s - loss: 7089.8829 - val_loss: 7812.3967
+
+Epoch 00039: loss improved from 7155.83813 to 7089.88286, saving model to ./weights/_weights.h5
+Epoch 40/2000
+ - 34s - loss: 7090.2649 - val_loss: 7492.3740
+
+Epoch 00040: loss did not improve from 7089.88286
+Epoch 41/2000
+ - 33s - loss: 7083.6280 - val_loss: 7831.7559
+
+Epoch 00041: loss improved from 7089.88286 to 7083.62795, saving model to ./weights/_weights.h5
+Epoch 42/2000
+ - 34s - loss: 7052.3239 - val_loss: 75705.4388
+
+Epoch 00042: loss improved from 7083.62795 to 7052.32386, saving model to ./weights/_weights.h5
+Epoch 43/2000
+ - 33s - loss: 7091.1836 - val_loss: 8357.4612
+
+Epoch 00043: loss did not improve from 7052.32386
+Epoch 44/2000
+ - 34s - loss: 6893.2785 - val_loss: 7629.9343
+
+Epoch 00044: loss improved from 7052.32386 to 6893.27848, saving model to ./weights/_weights.h5
+Epoch 45/2000
+ - 34s - loss: 6917.0092 - val_loss: 12683.2790
+
+Epoch 00045: loss did not improve from 6893.27848
+Epoch 46/2000
+ - 34s - loss: 6892.5384 - val_loss: 9700.5575
+
+Epoch 00046: loss improved from 6893.27848 to 6892.53842, saving model to ./weights/_weights.h5
+Epoch 47/2000
+ - 34s - loss: 6830.8984 - val_loss: 7664.4223
+
+Epoch 00047: loss improved from 6892.53842 to 6830.89843, saving model to ./weights/_weights.h5
+Epoch 48/2000
+ - 34s - loss: 6778.8734 - val_loss: 8224.9660
+
+Epoch 00048: loss improved from 6830.89843 to 6778.87343, saving model to ./weights/_weights.h5
+Epoch 49/2000
+ - 34s - loss: 6712.6868 - val_loss: 8987.0665
+
+Epoch 00049: loss improved from 6778.87343 to 6712.68683, saving model to ./weights/_weights.h5
+Epoch 50/2000
+ - 34s - loss: 6708.2580 - val_loss: 26666.9250
+
+Epoch 00050: loss improved from 6712.68683 to 6708.25802, saving model to ./weights/_weights.h5
+Epoch 51/2000
+ - 34s - loss: 6788.1779 - val_loss: 13604.7991
+
+Epoch 00051: loss did not improve from 6708.25802
+Epoch 52/2000
+ - 33s - loss: 6775.1856 - val_loss: 17412.6636
+
+Epoch 00052: loss did not improve from 6708.25802
+Epoch 53/2000
+ - 34s - loss: 6595.3738 - val_loss: 8516.0975
+
+Epoch 00053: loss improved from 6708.25802 to 6595.37381, saving model to ./weights/_weights.h5
+Epoch 54/2000
+ - 34s - loss: 6668.2368 - val_loss: 6969.0394
+
+Epoch 00054: loss did not improve from 6595.37381
+Epoch 55/2000
+ - 33s - loss: 6475.1862 - val_loss: 8736.3764
+
+Epoch 00055: loss improved from 6595.37381 to 6475.18625, saving model to ./weights/_weights.h5
+Epoch 56/2000
+ - 33s - loss: 6667.3311 - val_loss: 8632.1397
+
+Epoch 00056: loss did not improve from 6475.18625
+Epoch 57/2000
+ - 33s - loss: 6579.8568 - val_loss: 22510.2383
+
+Epoch 00057: loss did not improve from 6475.18625
+Epoch 58/2000
+ - 33s - loss: 6689.8069 - val_loss: 7230.5301
+
+Epoch 00058: loss did not improve from 6475.18625
+Epoch 59/2000
+ - 33s - loss: 6434.3222 - val_loss: 7038.5974
+
+Epoch 00059: loss improved from 6475.18625 to 6434.32223, saving model to ./weights/_weights.h5
+Epoch 60/2000
+ - 33s - loss: 6406.7529 - val_loss: 7006.6889
+
+Epoch 00060: loss improved from 6434.32223 to 6406.75288, saving model to ./weights/_weights.h5
+Epoch 61/2000
+ - 33s - loss: 6497.3174 - val_loss: 9057.2687
+
+Epoch 00061: loss did not improve from 6406.75288
+Epoch 62/2000
+ - 33s - loss: 6301.3104 - val_loss: 12443.6813
+
+Epoch 00062: loss improved from 6406.75288 to 6301.31037, saving model to ./weights/_weights.h5
+Epoch 63/2000
+ - 33s - loss: 6408.4656 - val_loss: 7072.0979
+
+Epoch 00063: loss did not improve from 6301.31037
+Epoch 64/2000
+ - 33s - loss: 6368.3833 - val_loss: 7860.0726
+
+Epoch 00064: loss did not improve from 6301.31037
+Epoch 65/2000
+ - 33s - loss: 6358.6359 - val_loss: 7066.8261
+
+Epoch 00065: loss did not improve from 6301.31037
+Epoch 66/2000
+ - 33s - loss: 6309.6231 - val_loss: 15306.2958
+
+Epoch 00066: loss did not improve from 6301.31037
+Epoch 67/2000
+ - 33s - loss: 6384.3896 - val_loss: 8775.2134
+
+Epoch 00067: loss did not improve from 6301.31037
+Epoch 68/2000
+ - 33s - loss: 6259.7236 - val_loss: 6815.7591
+
+Epoch 00068: loss improved from 6301.31037 to 6259.72364, saving model to ./weights/_weights.h5
+Epoch 69/2000
+ - 33s - loss: 6328.2564 - val_loss: 13588.8548
+
+Epoch 00069: loss did not improve from 6259.72364
+Epoch 70/2000
+ - 33s - loss: 6261.8363 - val_loss: 20689.5253
+
+Epoch 00070: loss did not improve from 6259.72364
+Epoch 71/2000
+ - 33s - loss: 6124.0439 - val_loss: 6477.5068
+
+Epoch 00071: loss improved from 6259.72364 to 6124.04392, saving model to ./weights/_weights.h5
+Epoch 72/2000
+ - 33s - loss: 6223.4720 - val_loss: 7661.3272
+
+Epoch 00072: loss did not improve from 6124.04392
+Epoch 73/2000
+ - 33s - loss: 6337.9585 - val_loss: 6807.2868
+
+Epoch 00073: loss did not improve from 6124.04392
+Epoch 74/2000
+ - 35s - loss: 6227.3460 - val_loss: 14018.2764
+
+Epoch 00074: loss did not improve from 6124.04392
+Epoch 75/2000
+ - 35s - loss: 6151.1383 - val_loss: 6780.8786
+
+Epoch 00075: loss did not improve from 6124.04392
+Epoch 76/2000
+ - 35s - loss: 6077.9535 - val_loss: 6891.1288
+
+Epoch 00076: loss improved from 6124.04392 to 6077.95354, saving model to ./weights/_weights.h5
+Epoch 77/2000
+ - 35s - loss: 6324.1571 - val_loss: 7473.3154
+
+Epoch 00077: loss did not improve from 6077.95354
+Epoch 78/2000
+ - 34s - loss: 6123.5569 - val_loss: 7007.8476
+
+Epoch 00078: loss did not improve from 6077.95354
+Epoch 79/2000
+ - 35s - loss: 6000.6595 - val_loss: 7023.8308
+
+Epoch 00079: loss improved from 6077.95354 to 6000.65952, saving model to ./weights/_weights.h5
+Epoch 80/2000
+ - 35s - loss: 5965.4782 - val_loss: 7686.9476
+
+Epoch 00080: loss improved from 6000.65952 to 5965.47825, saving model to ./weights/_weights.h5
+Epoch 81/2000
+ - 35s - loss: 5946.7118 - val_loss: 10836.6760
+
+Epoch 00081: loss improved from 5965.47825 to 5946.71176, saving model to ./weights/_weights.h5
+Epoch 82/2000
+ - 35s - loss: 5864.0616 - val_loss: 12717.2571
+
+Epoch 00082: loss improved from 5946.71176 to 5864.06161, saving model to ./weights/_weights.h5
+Epoch 83/2000
+ - 35s - loss: 6027.8015 - val_loss: 13965.5044
+
+Epoch 00083: loss did not improve from 5864.06161
+Epoch 84/2000
+ - 35s - loss: 5950.4581 - val_loss: 6738.3153
+
+Epoch 00084: loss did not improve from 5864.06161
+Epoch 85/2000
+ - 34s - loss: 5996.6828 - val_loss: 7248.2751
+
+Epoch 00085: loss did not improve from 5864.06161
+Epoch 86/2000
+ - 35s - loss: 5888.3033 - val_loss: 16512.6932
+
+Epoch 00086: loss did not improve from 5864.06161
+Epoch 87/2000
+ - 35s - loss: 5899.1596 - val_loss: 6124.1581
+
+Epoch 00087: loss did not improve from 5864.06161
+Epoch 88/2000
+ - 35s - loss: 5953.5583 - val_loss: 7939.4190
+
+Epoch 00088: loss did not improve from 5864.06161
+Epoch 89/2000
+ - 35s - loss: 5843.7803 - val_loss: 9319.7486
+
+Epoch 00089: loss improved from 5864.06161 to 5843.78027, saving model to ./weights/_weights.h5
+Epoch 90/2000
+ - 35s - loss: 5854.9269 - val_loss: 10108.8049
+
+Epoch 00090: loss did not improve from 5843.78027
+Epoch 91/2000
+ - 33s - loss: 5802.3075 - val_loss: 7470.8216
+
+Epoch 00091: loss improved from 5843.78027 to 5802.30749, saving model to ./weights/_weights.h5
+Epoch 92/2000
+ - 33s - loss: 5704.9795 - val_loss: 9068.6911
+
+Epoch 00092: loss improved from 5802.30749 to 5704.97953, saving model to ./weights/_weights.h5
+Epoch 93/2000
+ - 33s - loss: 5889.6454 - val_loss: 8581.2848
+
+Epoch 00093: loss did not improve from 5704.97953
+Epoch 94/2000
+ - 33s - loss: 5808.1219 - val_loss: 9212.0558
+
+Epoch 00094: loss did not improve from 5704.97953
+Epoch 95/2000
+ - 33s - loss: 5777.0114 - val_loss: 6629.6361
+
+Epoch 00095: loss did not improve from 5704.97953
+Epoch 96/2000
+ - 33s - loss: 5766.5128 - val_loss: 8952.4749
+
+Epoch 00096: loss did not improve from 5704.97953
+Epoch 97/2000
+ - 33s - loss: 5887.1305 - val_loss: 11306.6868
+
+Epoch 00097: loss did not improve from 5704.97953
+Epoch 98/2000
+ - 33s - loss: 6767.3795 - val_loss: 21160.0196
+
+Epoch 00098: loss did not improve from 5704.97953
+Epoch 99/2000
+ - 33s - loss: 5903.7542 - val_loss: 11750.7835
+
+Epoch 00099: loss did not improve from 5704.97953
+Epoch 100/2000
+ - 33s - loss: 5714.0322 - val_loss: 16246.5891
+
+Epoch 00100: loss did not improve from 5704.97953
+Epoch 101/2000
+ - 33s - loss: 5709.2143 - val_loss: 9797.2134
+
+Epoch 00101: loss did not improve from 5704.97953
+Epoch 102/2000
+ - 33s - loss: 5730.2095 - val_loss: 13131.2713
+
+Epoch 00102: loss did not improve from 5704.97953
+Epoch 103/2000
+ - 33s - loss: 5760.1678 - val_loss: 11521.6463
+
+Epoch 00103: loss did not improve from 5704.97953
+Epoch 104/2000
+ - 33s - loss: 5600.2219 - val_loss: 7151.1568
+
+Epoch 00104: loss improved from 5704.97953 to 5600.22192, saving model to ./weights/_weights.h5
+Epoch 105/2000
+ - 33s - loss: 5618.9156 - val_loss: 6330.2818
+
+Epoch 00105: loss did not improve from 5600.22192
+Epoch 106/2000
+ - 33s - loss: 5733.4532 - val_loss: 6595.2442
+
+Epoch 00106: loss did not improve from 5600.22192
+Epoch 107/2000
+ - 33s - loss: 5677.2338 - val_loss: 9153.5666
+
+Epoch 00107: loss did not improve from 5600.22192
+Epoch 108/2000
+ - 33s - loss: 5554.4322 - val_loss: 7994.8184
+
+Epoch 00108: loss improved from 5600.22192 to 5554.43216, saving model to ./weights/_weights.h5
+Epoch 109/2000
+ - 33s - loss: 5891.6535 - val_loss: 9684.9314
+
+Epoch 00109: loss did not improve from 5554.43216
+Epoch 110/2000
+ - 33s - loss: 5515.8979 - val_loss: 20469.9775
+
+Epoch 00110: loss improved from 5554.43216 to 5515.89787, saving model to ./weights/_weights.h5
+Epoch 111/2000
+ - 33s - loss: 5669.5035 - val_loss: 8019.6005
+
+Epoch 00111: loss did not improve from 5515.89787
+Epoch 112/2000
+ - 34s - loss: 5664.7420 - val_loss: 13155.5485
+
+Epoch 00112: loss did not improve from 5515.89787
+Epoch 113/2000
+ - 33s - loss: 5490.9493 - val_loss: 6132.3835
+
+Epoch 00113: loss improved from 5515.89787 to 5490.94927, saving model to ./weights/_weights.h5
+Epoch 114/2000
+ - 34s - loss: 5592.0855 - val_loss: 6016.7445
+
+Epoch 00114: loss did not improve from 5490.94927
+Epoch 115/2000
+ - 33s - loss: 5639.3627 - val_loss: 6566.2584
+
+Epoch 00115: loss did not improve from 5490.94927
+Epoch 116/2000
+ - 33s - loss: 5634.3806 - val_loss: 10574.5054
+
+Epoch 00116: loss did not improve from 5490.94927
+Epoch 117/2000
+ - 33s - loss: 5478.4519 - val_loss: 5989.7261
+
+Epoch 00117: loss improved from 5490.94927 to 5478.45188, saving model to ./weights/_weights.h5
+Epoch 118/2000
+ - 33s - loss: 5463.3200 - val_loss: 6305.7469
+
+Epoch 00118: loss improved from 5478.45188 to 5463.31998, saving model to ./weights/_weights.h5
+Epoch 119/2000
+ - 34s - loss: 5656.9714 - val_loss: 6660.0051
+
+Epoch 00119: loss did not improve from 5463.31998
+Epoch 120/2000
+ - 33s - loss: 5543.2923 - val_loss: 10298.4533
+
+Epoch 00120: loss did not improve from 5463.31998
+Epoch 121/2000
+ - 34s - loss: 5402.9521 - val_loss: 6335.5327
+
+Epoch 00121: loss improved from 5463.31998 to 5402.95215, saving model to ./weights/_weights.h5
+Epoch 122/2000
+ - 33s - loss: 5476.7735 - val_loss: 6302.7788
+
+Epoch 00122: loss did not improve from 5402.95215
+Epoch 123/2000
+ - 34s - loss: 5538.5636 - val_loss: 7310.7088
+
+Epoch 00123: loss did not improve from 5402.95215
+Epoch 124/2000
+ - 33s - loss: 5473.2183 - val_loss: 10034.2619
+
+Epoch 00124: loss did not improve from 5402.95215
+Epoch 125/2000
+ - 34s - loss: 5547.7403 - val_loss: 16802.6988
+
+Epoch 00125: loss did not improve from 5402.95215
+Epoch 126/2000
+ - 34s - loss: 5514.2313 - val_loss: 6962.0434
+
+Epoch 00126: loss did not improve from 5402.95215
+Epoch 127/2000
+ - 34s - loss: 5580.1975 - val_loss: 7467.9815
+
+Epoch 00127: loss did not improve from 5402.95215
+Epoch 128/2000
+ - 33s - loss: 5450.7435 - val_loss: 5962.3341
+
+Epoch 00128: loss did not improve from 5402.95215
+Epoch 129/2000
+ - 33s - loss: 5451.4908 - val_loss: 6148.2205
+
+Epoch 00129: loss did not improve from 5402.95215
+Epoch 130/2000
+ - 33s - loss: 5502.5862 - val_loss: 6572.7483
+
+Epoch 00130: loss did not improve from 5402.95215
+Epoch 131/2000
+ - 33s - loss: 5485.3854 - val_loss: 7993.9901
+
+Epoch 00131: loss did not improve from 5402.95215
+Epoch 132/2000
+ - 33s - loss: 5676.5996 - val_loss: 7539.2706
+
+Epoch 00132: loss did not improve from 5402.95215
+Epoch 133/2000
+ - 33s - loss: 5466.4090 - val_loss: 6832.0906
+
+Epoch 00133: loss did not improve from 5402.95215
+Epoch 134/2000
+ - 33s - loss: 5419.3717 - val_loss: 6546.5476
+
+Epoch 00134: loss did not improve from 5402.95215
+Epoch 135/2000
+ - 33s - loss: 5357.9267 - val_loss: 13328.2535
+
+Epoch 00135: loss improved from 5402.95215 to 5357.92669, saving model to ./weights/_weights.h5
+Epoch 136/2000
+ - 33s - loss: 5296.9483 - val_loss: 5971.7748
+
+Epoch 00136: loss improved from 5357.92669 to 5296.94827, saving model to ./weights/_weights.h5
+Epoch 137/2000
+ - 33s - loss: 5396.6761 - val_loss: 7122.6769
+
+Epoch 00137: loss did not improve from 5296.94827
+Epoch 138/2000
+ - 33s - loss: 5287.5441 - val_loss: 6005.9854
+
+Epoch 00138: loss improved from 5296.94827 to 5287.54415, saving model to ./weights/_weights.h5
+Epoch 139/2000
+ - 33s - loss: 5357.6364 - val_loss: 7079.1887
+
+Epoch 00139: loss did not improve from 5287.54415
+Epoch 140/2000
+ - 33s - loss: 5264.2699 - val_loss: 7147.7396
+
+Epoch 00140: loss improved from 5287.54415 to 5264.26986, saving model to ./weights/_weights.h5
+Epoch 141/2000
+ - 33s - loss: 5197.3058 - val_loss: 6987.1209
+
+Epoch 00141: loss improved from 5264.26986 to 5197.30584, saving model to ./weights/_weights.h5
+Epoch 142/2000
+ - 33s - loss: 5301.9983 - val_loss: 5714.5598
+
+Epoch 00142: loss did not improve from 5197.30584
+Epoch 143/2000
+ - 33s - loss: 5253.0294 - val_loss: 6559.4752
+
+Epoch 00143: loss did not improve from 5197.30584
+Epoch 144/2000
+ - 33s - loss: 5248.2433 - val_loss: 6265.3249
+
+Epoch 00144: loss did not improve from 5197.30584
+Epoch 145/2000
+ - 33s - loss: 5234.5380 - val_loss: 6460.9439
+
+Epoch 00145: loss did not improve from 5197.30584
+Epoch 146/2000
+ - 33s - loss: 5235.5820 - val_loss: 8168.1563
+
+Epoch 00146: loss did not improve from 5197.30584
+Epoch 147/2000
+ - 33s - loss: 5251.6973 - val_loss: 5906.0558
+
+Epoch 00147: loss did not improve from 5197.30584
+Epoch 148/2000
+ - 33s - loss: 5292.1180 - val_loss: 9556.2678
+
+Epoch 00148: loss did not improve from 5197.30584
+Epoch 149/2000
+ - 33s - loss: 5297.7234 - val_loss: 10963.3513
+
+Epoch 00149: loss did not improve from 5197.30584
+Epoch 150/2000
+ - 33s - loss: 5368.9058 - val_loss: 22380.1797
+
+Epoch 00150: loss did not improve from 5197.30584
+Epoch 151/2000
+ - 33s - loss: 5289.5590 - val_loss: 6309.6580
+
+Epoch 00151: loss did not improve from 5197.30584
+Epoch 152/2000
+ - 33s - loss: 5165.7967 - val_loss: 6647.7165
+
+Epoch 00152: loss improved from 5197.30584 to 5165.79672, saving model to ./weights/_weights.h5
+Epoch 153/2000
+ - 33s - loss: 5210.8572 - val_loss: 5988.7670
+
+Epoch 00153: loss did not improve from 5165.79672
+Epoch 154/2000
+ - 33s - loss: 5352.6947 - val_loss: 7542.9464
+
+Epoch 00154: loss did not improve from 5165.79672
+Epoch 155/2000
+ - 33s - loss: 5080.0530 - val_loss: 6347.1116
+
+Epoch 00155: loss improved from 5165.79672 to 5080.05302, saving model to ./weights/_weights.h5
+Epoch 156/2000
+ - 33s - loss: 5248.1269 - val_loss: 6290.2954
+
+Epoch 00156: loss did not improve from 5080.05302
+Epoch 157/2000
+ - 33s - loss: 5180.0005 - val_loss: 6210.7388
+
+Epoch 00157: loss did not improve from 5080.05302
+Epoch 158/2000
+ - 33s - loss: 5170.5113 - val_loss: 12022.6608
+
+Epoch 00158: loss did not improve from 5080.05302
+Epoch 159/2000
+ - 33s - loss: 5237.4343 - val_loss: 6977.9411
+
+Epoch 00159: loss did not improve from 5080.05302
+Epoch 160/2000
+ - 33s - loss: 5118.6091 - val_loss: 6878.0318
+
+Epoch 00160: loss did not improve from 5080.05302
+Epoch 161/2000
+ - 33s - loss: 5093.4177 - val_loss: 5379.0711
+
+Epoch 00161: loss did not improve from 5080.05302
+Epoch 162/2000
+ - 33s - loss: 5140.4492 - val_loss: 6523.2259
+
+Epoch 00162: loss did not improve from 5080.05302
+Epoch 163/2000
+ - 33s - loss: 5175.4544 - val_loss: 6097.1142
+
+Epoch 00163: loss did not improve from 5080.05302
+Epoch 164/2000
+ - 33s - loss: 5139.2989 - val_loss: 6123.6557
+
+Epoch 00164: loss did not improve from 5080.05302
+Epoch 165/2000
+ - 33s - loss: 5131.9940 - val_loss: 9917.7470
+
+Epoch 00165: loss did not improve from 5080.05302
+Epoch 166/2000
+ - 33s - loss: 5154.3659 - val_loss: 6759.8130
+
+Epoch 00166: loss did not improve from 5080.05302
+Epoch 167/2000
+ - 33s - loss: 5025.8813 - val_loss: 9200.3941
+
+Epoch 00167: loss improved from 5080.05302 to 5025.88133, saving model to ./weights/_weights.h5
+Epoch 168/2000
+ - 33s - loss: 5341.1146 - val_loss: 13565.0043
+
+Epoch 00168: loss did not improve from 5025.88133
+Epoch 169/2000
+ - 33s - loss: 5061.3042 - val_loss: 6138.6239
+
+Epoch 00169: loss did not improve from 5025.88133
+Epoch 170/2000
+ - 33s - loss: 5003.7393 - val_loss: 6633.6773
+
+Epoch 00170: loss improved from 5025.88133 to 5003.73930, saving model to ./weights/_weights.h5
+Epoch 171/2000
+ - 33s - loss: 5118.1237 - val_loss: 10279.6585
+
+Epoch 00171: loss did not improve from 5003.73930
+Epoch 172/2000
+ - 33s - loss: 4971.9419 - val_loss: 14417.8192
+
+Epoch 00172: loss improved from 5003.73930 to 4971.94185, saving model to ./weights/_weights.h5
+Epoch 173/2000
+ - 33s - loss: 5000.9356 - val_loss: 5375.2986
+
+Epoch 00173: loss did not improve from 4971.94185
+Epoch 174/2000
+ - 33s - loss: 5093.5966 - val_loss: 5463.8822
+
+Epoch 00174: loss did not improve from 4971.94185
+Epoch 175/2000
+ - 33s - loss: 5134.6472 - val_loss: 5461.0931
+
+Epoch 00175: loss did not improve from 4971.94185
+Epoch 176/2000
+ - 33s - loss: 5053.7353 - val_loss: 5498.2341
+
+Epoch 00176: loss did not improve from 4971.94185
+Epoch 177/2000
+ - 33s - loss: 5068.3320 - val_loss: 5987.7553
+
+Epoch 00177: loss did not improve from 4971.94185
+Epoch 178/2000
+ - 33s - loss: 5444.3164 - val_loss: 5596.0557
+
+Epoch 00178: loss did not improve from 4971.94185
+Epoch 179/2000
+ - 33s - loss: 4991.7601 - val_loss: 7888.8062
+
+Epoch 00179: loss did not improve from 4971.94185
+Epoch 180/2000
+ - 33s - loss: 4953.7627 - val_loss: 9618.6735
+
+Epoch 00180: loss improved from 4971.94185 to 4953.76271, saving model to ./weights/_weights.h5
+Epoch 181/2000
+ - 33s - loss: 5591.0927 - val_loss: 20086.8332
+
+Epoch 00181: loss did not improve from 4953.76271
+Epoch 182/2000
+ - 33s - loss: 5041.1897 - val_loss: 5550.5934
+
+Epoch 00182: loss did not improve from 4953.76271
+Epoch 183/2000
+ - 34s - loss: 5031.4372 - val_loss: 7615.1182
+
+Epoch 00183: loss did not improve from 4953.76271
+Epoch 184/2000
+ - 33s - loss: 5046.8439 - val_loss: 8098.6820
+
+Epoch 00184: loss did not improve from 4953.76271
+Epoch 185/2000
+ - 33s - loss: 5056.3926 - val_loss: 5919.7437
+
+Epoch 00185: loss did not improve from 4953.76271
+Epoch 186/2000
+ - 33s - loss: 5095.9103 - val_loss: 7349.2784
+
+Epoch 00186: loss did not improve from 4953.76271
+Epoch 187/2000
+ - 33s - loss: 5046.2888 - val_loss: 9011.3818
+
+Epoch 00187: loss did not improve from 4953.76271
+Epoch 188/2000
+ - 33s - loss: 4906.8195 - val_loss: 5906.7194
+
+Epoch 00188: loss improved from 4953.76271 to 4906.81951, saving model to ./weights/_weights.h5
+Epoch 189/2000
+ - 33s - loss: 5085.8661 - val_loss: 9323.3063
+
+Epoch 00189: loss did not improve from 4906.81951
+Epoch 190/2000
+ - 33s - loss: 5034.0133 - val_loss: 6012.8528
+
+Epoch 00190: loss did not improve from 4906.81951
+Epoch 191/2000
+ - 33s - loss: 4945.8896 - val_loss: 5634.1719
+
+Epoch 00191: loss did not improve from 4906.81951
+Epoch 192/2000
+ - 33s - loss: 4917.0896 - val_loss: 6630.7823
+
+Epoch 00192: loss did not improve from 4906.81951
+Epoch 193/2000
+ - 33s - loss: 5218.9645 - val_loss: 24062.9912
+
+Epoch 00193: loss did not improve from 4906.81951
+Epoch 194/2000
+ - 33s - loss: 5250.3826 - val_loss: 5780.9675
+
+Epoch 00194: loss did not improve from 4906.81951
+Epoch 195/2000
+ - 33s - loss: 4920.2471 - val_loss: 6031.3720
+
+Epoch 00195: loss did not improve from 4906.81951
+Epoch 196/2000
+ - 33s - loss: 4867.8230 - val_loss: 5423.6955
+
+Epoch 00196: loss improved from 4906.81951 to 4867.82298, saving model to ./weights/_weights.h5
+Epoch 197/2000
+ - 33s - loss: 4879.8704 - val_loss: 6775.0236
+
+Epoch 00197: loss did not improve from 4867.82298
+Epoch 198/2000
+ - 33s - loss: 4922.6395 - val_loss: 15276.9019
+
+Epoch 00198: loss did not improve from 4867.82298
+Epoch 199/2000
+ - 33s - loss: 4864.4824 - val_loss: 7354.2368
+
+Epoch 00199: loss improved from 4867.82298 to 4864.48241, saving model to ./weights/_weights.h5
+Epoch 200/2000
+ - 33s - loss: 4796.0781 - val_loss: 6333.6756
+
+Epoch 00200: loss improved from 4864.48241 to 4796.07806, saving model to ./weights/_weights.h5
+Epoch 201/2000
+ - 33s - loss: 5082.7170 - val_loss: 7733.0315
+
+Epoch 00201: loss did not improve from 4796.07806
+Epoch 202/2000
+ - 33s - loss: 5054.5016 - val_loss: 5692.1539
+
+Epoch 00202: loss did not improve from 4796.07806
+Epoch 203/2000
+ - 33s - loss: 4929.3894 - val_loss: 5459.5711
+
+Epoch 00203: loss did not improve from 4796.07806
+Epoch 204/2000
+ - 33s - loss: 4862.1071 - val_loss: 7402.4047
+
+Epoch 00204: loss did not improve from 4796.07806
+Epoch 205/2000
+ - 33s - loss: 4925.2739 - val_loss: 20441.5806
+
+Epoch 00205: loss did not improve from 4796.07806
+Epoch 206/2000
+ - 33s - loss: 4844.1463 - val_loss: 9030.8537
+
+Epoch 00206: loss did not improve from 4796.07806
+Epoch 207/2000
+ - 33s - loss: 5414.9487 - val_loss: 7996.3207
+
+Epoch 00207: loss did not improve from 4796.07806
+Epoch 208/2000
+ - 33s - loss: 4849.8245 - val_loss: 5912.2175
+
+Epoch 00208: loss did not improve from 4796.07806
+Epoch 209/2000
+ - 33s - loss: 4848.5167 - val_loss: 6553.1965
+
+Epoch 00209: loss did not improve from 4796.07806
+Epoch 210/2000
+ - 33s - loss: 4721.1726 - val_loss: 16720.1422
+
+Epoch 00210: loss improved from 4796.07806 to 4721.17257, saving model to ./weights/_weights.h5
+Epoch 211/2000
+ - 33s - loss: 4920.7902 - val_loss: 9304.2059
+
+Epoch 00211: loss did not improve from 4721.17257
+Epoch 212/2000
+ - 33s - loss: 4842.4954 - val_loss: 5783.2524
+
+Epoch 00212: loss did not improve from 4721.17257
+Epoch 213/2000
+ - 33s - loss: 4734.5367 - val_loss: 10232.7307
+
+Epoch 00213: loss did not improve from 4721.17257
+Epoch 214/2000
+ - 33s - loss: 4851.9937 - val_loss: 8997.0387
+
+Epoch 00214: loss did not improve from 4721.17257
+Epoch 215/2000
+ - 33s - loss: 4784.8205 - val_loss: 6953.2273
+
+Epoch 00215: loss did not improve from 4721.17257
+Epoch 216/2000
+ - 33s - loss: 4802.2367 - val_loss: 15172.8762
+
+Epoch 00216: loss did not improve from 4721.17257
+Epoch 217/2000
+ - 33s - loss: 4807.7005 - val_loss: 13988.1028
+
+Epoch 00217: loss did not improve from 4721.17257
+Epoch 218/2000
+ - 33s - loss: 4897.0167 - val_loss: 6410.9159
+
+Epoch 00218: loss did not improve from 4721.17257
+Epoch 219/2000
+ - 33s - loss: 4925.4416 - val_loss: 19281.8115
+
+Epoch 00219: loss did not improve from 4721.17257
+Epoch 220/2000
+ - 33s - loss: 4883.9664 - val_loss: 7901.9458
+
+Epoch 00220: loss did not improve from 4721.17257
+Epoch 221/2000
+ - 33s - loss: 4833.6982 - val_loss: 7814.7671
+
+Epoch 00221: loss did not improve from 4721.17257
+Epoch 222/2000
+ - 33s - loss: 4727.0275 - val_loss: 6394.7952
+
+Epoch 00222: loss did not improve from 4721.17257
+Epoch 223/2000
+ - 33s - loss: 4844.8704 - val_loss: 11963.5849
+
+Epoch 00223: loss did not improve from 4721.17257
+Epoch 224/2000
+ - 33s - loss: 4747.2459 - val_loss: 5436.0545
+
+Epoch 00224: loss did not improve from 4721.17257
+Epoch 225/2000
+ - 33s - loss: 4790.6604 - val_loss: 7731.3584
+
+Epoch 00225: loss did not improve from 4721.17257
+Epoch 226/2000
+ - 33s - loss: 4682.0078 - val_loss: 6929.9854
+
+Epoch 00226: loss improved from 4721.17257 to 4682.00780, saving model to ./weights/_weights.h5
+Epoch 227/2000
+ - 33s - loss: 4651.8849 - val_loss: 6766.0180
+
+Epoch 00227: loss improved from 4682.00780 to 4651.88488, saving model to ./weights/_weights.h5
+Epoch 228/2000
+ - 33s - loss: 4739.4620 - val_loss: 16094.8092
+
+Epoch 00228: loss did not improve from 4651.88488
+Epoch 229/2000
+ - 33s - loss: 4771.0970 - val_loss: 8844.5253
+
+Epoch 00229: loss did not improve from 4651.88488
+Epoch 230/2000
+ - 33s - loss: 4745.1102 - val_loss: 10072.1519
+
+Epoch 00230: loss did not improve from 4651.88488
+Epoch 231/2000
+ - 33s - loss: 4750.4843 - val_loss: 6149.7541
+
+Epoch 00231: loss did not improve from 4651.88488
+Epoch 232/2000
+ - 33s - loss: 4695.8087 - val_loss: 6214.1447
+
+Epoch 00232: loss did not improve from 4651.88488
+Epoch 233/2000
+ - 33s - loss: 4743.7145 - val_loss: 7196.4364
+
+Epoch 00233: loss did not improve from 4651.88488
+Epoch 234/2000
+ - 33s - loss: 4748.0160 - val_loss: 5386.7706
+
+Epoch 00234: loss did not improve from 4651.88488
+Epoch 235/2000
+ - 33s - loss: 4690.7702 - val_loss: 9088.7439
+
+Epoch 00235: loss did not improve from 4651.88488
+Epoch 236/2000
+ - 33s - loss: 4624.6707 - val_loss: 20494.0742
+
+Epoch 00236: loss improved from 4651.88488 to 4624.67066, saving model to ./weights/_weights.h5
+Epoch 237/2000
+ - 33s - loss: 4705.3310 - val_loss: 31676.8547
+
+Epoch 00237: loss did not improve from 4624.67066
+Epoch 238/2000
+ - 33s - loss: 4869.1678 - val_loss: 9382.9570
+
+Epoch 00238: loss did not improve from 4624.67066
+Epoch 239/2000
+ - 33s - loss: 4635.9494 - val_loss: 15376.2988
+
+Epoch 00239: loss did not improve from 4624.67066
+Epoch 240/2000
+ - 33s - loss: 4696.1534 - val_loss: 6433.2374
+
+Epoch 00240: loss did not improve from 4624.67066
+Epoch 241/2000
+ - 33s - loss: 4620.1380 - val_loss: 5329.7033
+
+Epoch 00241: loss improved from 4624.67066 to 4620.13799, saving model to ./weights/_weights.h5
+Epoch 242/2000
+ - 33s - loss: 4591.0110 - val_loss: 7362.9044
+
+Epoch 00242: loss improved from 4620.13799 to 4591.01100, saving model to ./weights/_weights.h5
+Epoch 243/2000
+ - 33s - loss: 4833.0299 - val_loss: 7036.9725
+
+Epoch 00243: loss did not improve from 4591.01100
+Epoch 244/2000
+ - 33s - loss: 4687.6428 - val_loss: 5748.7237
+
+Epoch 00244: loss did not improve from 4591.01100
+Epoch 245/2000
+ - 32s - loss: 4672.3088 - val_loss: 5914.1006
+
+Epoch 00245: loss did not improve from 4591.01100
+Epoch 246/2000
+ - 33s - loss: 4647.6568 - val_loss: 6773.2583
+
+Epoch 00246: loss did not improve from 4591.01100
+Epoch 247/2000
+ - 33s - loss: 4698.7929 - val_loss: 5691.3899
+
+Epoch 00247: loss did not improve from 4591.01100
+Epoch 248/2000
+ - 33s - loss: 4765.6014 - val_loss: 6373.2092
+
+Epoch 00248: loss did not improve from 4591.01100
+Epoch 249/2000
+ - 33s - loss: 4717.2067 - val_loss: 8198.4056
+
+Epoch 00249: loss did not improve from 4591.01100
+Epoch 250/2000
+ - 33s - loss: 4653.9542 - val_loss: 5379.2203
+
+Epoch 00250: loss did not improve from 4591.01100
+Epoch 251/2000
+ - 33s - loss: 4675.6283 - val_loss: 7202.9591
+
+Epoch 00251: loss did not improve from 4591.01100
+Epoch 252/2000
+ - 33s - loss: 4543.9503 - val_loss: 5839.4367
+
+Epoch 00252: loss improved from 4591.01100 to 4543.95030, saving model to ./weights/_weights.h5
+Epoch 253/2000
+ - 33s - loss: 4632.1022 - val_loss: 7660.1819
+
+Epoch 00253: loss did not improve from 4543.95030
+Epoch 254/2000
+ - 33s - loss: 4555.3734 - val_loss: 7460.0800
+
+Epoch 00254: loss did not improve from 4543.95030
+Epoch 255/2000
+ - 33s - loss: 4746.3008 - val_loss: 6162.0729
+
+Epoch 00255: loss did not improve from 4543.95030
+Epoch 256/2000
+ - 33s - loss: 4631.9609 - val_loss: 6291.9687
+
+Epoch 00256: loss did not improve from 4543.95030
+Epoch 257/2000
+ - 33s - loss: 4619.8423 - val_loss: 7553.9827
+
+Epoch 00257: loss did not improve from 4543.95030
+Epoch 258/2000
+ - 33s - loss: 4557.6810 - val_loss: 43507.9686
+
+Epoch 00258: loss did not improve from 4543.95030
+Epoch 259/2000
+ - 33s - loss: 4563.8261 - val_loss: 5324.7657
+
+Epoch 00259: loss did not improve from 4543.95030
+Epoch 260/2000
+ - 33s - loss: 4559.4661 - val_loss: 11621.8131
+
+Epoch 00260: loss did not improve from 4543.95030
+Epoch 261/2000
+ - 33s - loss: 4545.6476 - val_loss: 5643.5124
+
+Epoch 00261: loss did not improve from 4543.95030
+Epoch 262/2000
+ - 33s - loss: 4694.2272 - val_loss: 9613.4312
+
+Epoch 00262: loss did not improve from 4543.95030
+Epoch 263/2000
+ - 32s - loss: 4574.0495 - val_loss: 9345.4790
+
+Epoch 00263: loss did not improve from 4543.95030
+Epoch 264/2000
+ - 33s - loss: 4576.8485 - val_loss: 11750.1528
+
+Epoch 00264: loss did not improve from 4543.95030
+Epoch 265/2000
+ - 33s - loss: 4481.9496 - val_loss: 5167.5655
+
+Epoch 00265: loss improved from 4543.95030 to 4481.94965, saving model to ./weights/_weights.h5
+Epoch 266/2000
+ - 33s - loss: 4642.4991 - val_loss: 6136.4205
+
+Epoch 00266: loss did not improve from 4481.94965
+Epoch 267/2000
+ - 33s - loss: 4595.3829 - val_loss: 5290.5411
+
+Epoch 00267: loss did not improve from 4481.94965
+Epoch 268/2000
+ - 33s - loss: 4530.8946 - val_loss: 5806.2893
+
+Epoch 00268: loss did not improve from 4481.94965
+Epoch 269/2000
+ - 33s - loss: 4497.4765 - val_loss: 5053.1873
+
+Epoch 00269: loss did not improve from 4481.94965
+Epoch 270/2000
+ - 33s - loss: 4592.6378 - val_loss: 5797.1904
+
+Epoch 00270: loss did not improve from 4481.94965
+Epoch 271/2000
+ - 32s - loss: 4672.9267 - val_loss: 6696.6198
+
+Epoch 00271: loss did not improve from 4481.94965
+Epoch 272/2000
+ - 33s - loss: 4528.1873 - val_loss: 8335.6220
+
+Epoch 00272: loss did not improve from 4481.94965
+Epoch 273/2000
+ - 33s - loss: 4543.3978 - val_loss: 5562.9460
+
+Epoch 00273: loss did not improve from 4481.94965
+Epoch 274/2000
+ - 33s - loss: 4577.4127 - val_loss: 4977.9975
+
+Epoch 00274: loss did not improve from 4481.94965
+Epoch 275/2000
+ - 33s - loss: 4621.7788 - val_loss: 6047.3578
+
+Epoch 00275: loss did not improve from 4481.94965
+Epoch 276/2000
+ - 33s - loss: 4692.1303 - val_loss: 6597.0130
+
+Epoch 00276: loss did not improve from 4481.94965
+Epoch 277/2000
+ - 33s - loss: 4606.2794 - val_loss: 7057.7601
+
+Epoch 00277: loss did not improve from 4481.94965
+Epoch 278/2000
+ - 33s - loss: 4547.4583 - val_loss: 12446.3426
+
+Epoch 00278: loss did not improve from 4481.94965
+Epoch 279/2000
+ - 33s - loss: 4582.3457 - val_loss: 6351.4596
+
+Epoch 00279: loss did not improve from 4481.94965
+Epoch 280/2000
+ - 33s - loss: 4505.1066 - val_loss: 5364.3373
+
+Epoch 00280: loss did not improve from 4481.94965
+Epoch 281/2000
+ - 33s - loss: 4503.9184 - val_loss: 6235.1543
+
+Epoch 00281: loss did not improve from 4481.94965
+Epoch 282/2000
+ - 33s - loss: 4751.9471 - val_loss: 6546.3866
+
+Epoch 00282: loss did not improve from 4481.94965
+Epoch 283/2000
+ - 33s - loss: 4535.0343 - val_loss: 5549.0219
+
+Epoch 00283: loss did not improve from 4481.94965
+Epoch 284/2000
+ - 33s - loss: 4534.7123 - val_loss: 12534.7548
+
+Epoch 00284: loss did not improve from 4481.94965
+Epoch 285/2000
+ - 33s - loss: 4394.9618 - val_loss: 10082.2192
+
+Epoch 00285: loss improved from 4481.94965 to 4394.96179, saving model to ./weights/_weights.h5
+Epoch 286/2000
+ - 33s - loss: 4544.0918 - val_loss: 6838.7468
+
+Epoch 00286: loss did not improve from 4394.96179
+Epoch 287/2000
+ - 33s - loss: 4494.6350 - val_loss: 7266.8354
+
+Epoch 00287: loss did not improve from 4394.96179
+Epoch 288/2000
+ - 33s - loss: 4483.4776 - val_loss: 7511.2856
+
+Epoch 00288: loss did not improve from 4394.96179
+Epoch 289/2000
+ - 33s - loss: 4533.8827 - val_loss: 6449.8727
+
+Epoch 00289: loss did not improve from 4394.96179
+Epoch 290/2000
+ - 33s - loss: 4482.3493 - val_loss: 8300.3647
+
+Epoch 00290: loss did not improve from 4394.96179
+Epoch 291/2000
+ - 32s - loss: 4678.0071 - val_loss: 5610.9445
+
+Epoch 00291: loss did not improve from 4394.96179
+Epoch 292/2000
+ - 33s - loss: 4529.5281 - val_loss: 8258.1355
+
+Epoch 00292: loss did not improve from 4394.96179
+Epoch 293/2000
+ - 33s - loss: 4411.9922 - val_loss: 9634.2773
+
+Epoch 00293: loss did not improve from 4394.96179
+Epoch 294/2000
+ - 33s - loss: 4416.4760 - val_loss: 5612.5500
+
+Epoch 00294: loss did not improve from 4394.96179
+Epoch 295/2000
+ - 33s - loss: 4446.4636 - val_loss: 5599.9732
+
+Epoch 00295: loss did not improve from 4394.96179
+Epoch 296/2000
+ - 33s - loss: 4411.9852 - val_loss: 5171.8558
+
+Epoch 00296: loss did not improve from 4394.96179
+Epoch 297/2000
+ - 32s - loss: 4490.0807 - val_loss: 13825.1450
+
+Epoch 00297: loss did not improve from 4394.96179
+Epoch 298/2000
+ - 33s - loss: 4412.8162 - val_loss: 8753.8613
+
+Epoch 00298: loss did not improve from 4394.96179
+Epoch 299/2000
+ - 33s - loss: 4401.7358 - val_loss: 5958.3640
+
+Epoch 00299: loss did not improve from 4394.96179
+Epoch 300/2000
+ - 33s - loss: 4375.8602 - val_loss: 8114.5088
+
+Epoch 00300: loss improved from 4394.96179 to 4375.86017, saving model to ./weights/_weights.h5
+Epoch 301/2000
+ - 32s - loss: 4406.9955 - val_loss: 7324.5130
+
+Epoch 00301: loss did not improve from 4375.86017
+Epoch 302/2000
+ - 33s - loss: 4477.7582 - val_loss: 5092.8373
+
+Epoch 00302: loss did not improve from 4375.86017
+Epoch 303/2000
+ - 33s - loss: 4439.9149 - val_loss: 6526.3705
+
+Epoch 00303: loss did not improve from 4375.86017
+Epoch 304/2000
+ - 33s - loss: 4491.5785 - val_loss: 5895.2434
+
+Epoch 00304: loss did not improve from 4375.86017
+Epoch 305/2000
+ - 33s - loss: 4822.1671 - val_loss: 6210.5254
+
+Epoch 00305: loss did not improve from 4375.86017
+Epoch 306/2000
+ - 33s - loss: 4487.0946 - val_loss: 7131.7757
+
+Epoch 00306: loss did not improve from 4375.86017
+Epoch 307/2000
+ - 33s - loss: 4470.4035 - val_loss: 5864.4851
+
+Epoch 00307: loss did not improve from 4375.86017
+Epoch 308/2000
+ - 33s - loss: 4438.9637 - val_loss: 5057.9393
+
+Epoch 00308: loss did not improve from 4375.86017
+Epoch 309/2000
+ - 33s - loss: 4492.5720 - val_loss: 9877.2393
+
+Epoch 00309: loss did not improve from 4375.86017
+Epoch 310/2000
+ - 33s - loss: 4386.6072 - val_loss: 11988.4377
+
+Epoch 00310: loss did not improve from 4375.86017
+Epoch 311/2000
+ - 33s - loss: 4463.0780 - val_loss: 8623.8045
+
+Epoch 00311: loss did not improve from 4375.86017
+Epoch 312/2000
+ - 33s - loss: 4453.2580 - val_loss: 12285.5563
+
+Epoch 00312: loss did not improve from 4375.86017
+Epoch 313/2000
+ - 33s - loss: 4395.7284 - val_loss: 4968.1380
+
+Epoch 00313: loss did not improve from 4375.86017
+Epoch 314/2000
+ - 33s - loss: 4267.9259 - val_loss: 5828.5374
+
+Epoch 00314: loss improved from 4375.86017 to 4267.92586, saving model to ./weights/_weights.h5
+Epoch 315/2000
+ - 33s - loss: 4453.4575 - val_loss: 5698.9950
+
+Epoch 00315: loss did not improve from 4267.92586
+Epoch 316/2000
+ - 33s - loss: 4421.3350 - val_loss: 14131.7873
+
+Epoch 00316: loss did not improve from 4267.92586
+Epoch 317/2000
+ - 33s - loss: 5029.8378 - val_loss: 6917.1429
+
+Epoch 00317: loss did not improve from 4267.92586
+Epoch 318/2000
+ - 33s - loss: 4372.6042 - val_loss: 5487.0262
+
+Epoch 00318: loss did not improve from 4267.92586
+Epoch 319/2000
+ - 33s - loss: 4352.3699 - val_loss: 6467.0828
+
+Epoch 00319: loss did not improve from 4267.92586
+Epoch 320/2000
+ - 32s - loss: 4332.7677 - val_loss: 5246.4548
+
+Epoch 00320: loss did not improve from 4267.92586
+Epoch 321/2000
+ - 33s - loss: 4395.8195 - val_loss: 9998.4914
+
+Epoch 00321: loss did not improve from 4267.92586
+Epoch 322/2000
+ - 33s - loss: 4414.8786 - val_loss: 12426.6123
+
+Epoch 00322: loss did not improve from 4267.92586
+Epoch 323/2000
+ - 33s - loss: 4355.8352 - val_loss: 7362.9857
+
+Epoch 00323: loss did not improve from 4267.92586
+Epoch 324/2000
+ - 33s - loss: 4372.3987 - val_loss: 8153.5910
+
+Epoch 00324: loss did not improve from 4267.92586
+Epoch 325/2000
+ - 33s - loss: 4482.5327 - val_loss: 5508.7019
+
+Epoch 00325: loss did not improve from 4267.92586
+Epoch 326/2000
+ - 33s - loss: 4417.8282 - val_loss: 5580.8690
+
+Epoch 00326: loss did not improve from 4267.92586
+Epoch 327/2000
+ - 33s - loss: 4328.2482 - val_loss: 5587.5458
+
+Epoch 00327: loss did not improve from 4267.92586
+Epoch 328/2000
+ - 33s - loss: 4511.9872 - val_loss: 5067.9929
+
+Epoch 00328: loss did not improve from 4267.92586
+Epoch 329/2000
+ - 33s - loss: 4376.4957 - val_loss: 5558.1010
+
+Epoch 00329: loss did not improve from 4267.92586
+Epoch 330/2000
+ - 33s - loss: 4388.0700 - val_loss: 5142.2532
+
+Epoch 00330: loss did not improve from 4267.92586
+Epoch 331/2000
+ - 33s - loss: 4368.4851 - val_loss: 5699.3908
+
+Epoch 00331: loss did not improve from 4267.92586
+Epoch 332/2000
+ - 32s - loss: 4304.7710 - val_loss: 9272.9689
+
+Epoch 00332: loss did not improve from 4267.92586
+Epoch 333/2000
+ - 33s - loss: 4275.8499 - val_loss: 5500.3913
+
+Epoch 00333: loss did not improve from 4267.92586
+Epoch 334/2000
+ - 33s - loss: 4330.9909 - val_loss: 9454.1745
+
+Epoch 00334: loss did not improve from 4267.92586
+Epoch 335/2000
+ - 33s - loss: 4377.1245 - val_loss: 6731.5948
+
+Epoch 00335: loss did not improve from 4267.92586
+Epoch 336/2000
+ - 33s - loss: 4212.9457 - val_loss: 6518.0733
+
+Epoch 00336: loss improved from 4267.92586 to 4212.94574, saving model to ./weights/_weights.h5
+Epoch 337/2000
+ - 33s - loss: 4392.4908 - val_loss: 7565.4380
+
+Epoch 00337: loss did not improve from 4212.94574
+Epoch 338/2000
+ - 33s - loss: 4285.5706 - val_loss: 10102.9994
+
+Epoch 00338: loss did not improve from 4212.94574
+Epoch 339/2000
+ - 33s - loss: 4325.6522 - val_loss: 6113.8148
+
+Epoch 00339: loss did not improve from 4212.94574
+Epoch 340/2000
+ - 33s - loss: 4223.5156 - val_loss: 5897.6620
+
+Epoch 00340: loss did not improve from 4212.94574
+Epoch 341/2000
+ - 33s - loss: 4312.7723 - val_loss: 6248.1213
+
+Epoch 00341: loss did not improve from 4212.94574
+Epoch 342/2000
+ - 33s - loss: 4249.0625 - val_loss: 7986.0229
+
+Epoch 00342: loss did not improve from 4212.94574
+Epoch 343/2000
+ - 33s - loss: 4347.6505 - val_loss: 5287.1190
+
+Epoch 00343: loss did not improve from 4212.94574
+Epoch 344/2000
+ - 33s - loss: 4207.3407 - val_loss: 7479.8912
+
+Epoch 00344: loss improved from 4212.94574 to 4207.34067, saving model to ./weights/_weights.h5
+Epoch 345/2000
+ - 33s - loss: 4265.4873 - val_loss: 9076.8420
+
+Epoch 00345: loss did not improve from 4207.34067
+Epoch 346/2000
+ - 32s - loss: 4261.3169 - val_loss: 4889.2445
+
+Epoch 00346: loss did not improve from 4207.34067
+Epoch 347/2000
+ - 33s - loss: 4173.7208 - val_loss: 10587.2595
+
+Epoch 00347: loss improved from 4207.34067 to 4173.72083, saving model to ./weights/_weights.h5
+Epoch 348/2000
+ - 32s - loss: 4265.7184 - val_loss: 5537.5284
+
+Epoch 00348: loss did not improve from 4173.72083
+Epoch 349/2000
+ - 33s - loss: 4289.7059 - val_loss: 6640.5479
+
+Epoch 00349: loss did not improve from 4173.72083
+Epoch 350/2000
+ - 33s - loss: 4333.2186 - val_loss: 10889.2837
+
+Epoch 00350: loss did not improve from 4173.72083
+Epoch 351/2000
+ - 33s - loss: 4328.6631 - val_loss: 5693.2453
+
+Epoch 00351: loss did not improve from 4173.72083
+Epoch 352/2000
+ - 33s - loss: 4233.1010 - val_loss: 7394.6295
+
+Epoch 00352: loss did not improve from 4173.72083
+Epoch 353/2000
+ - 33s - loss: 4333.2476 - val_loss: 9845.8944
+
+Epoch 00353: loss did not improve from 4173.72083
+Epoch 354/2000
+ - 33s - loss: 4252.2083 - val_loss: 5684.9272
+
+Epoch 00354: loss did not improve from 4173.72083
+Epoch 355/2000
+ - 33s - loss: 4295.7341 - val_loss: 6655.1279
+
+Epoch 00355: loss did not improve from 4173.72083
+Epoch 356/2000
+ - 33s - loss: 4246.1487 - val_loss: 6328.9633
+
+Epoch 00356: loss did not improve from 4173.72083
+Epoch 357/2000
+ - 33s - loss: 4200.9854 - val_loss: 5026.4062
+
+Epoch 00357: loss did not improve from 4173.72083
+Epoch 358/2000
+ - 33s - loss: 4268.8858 - val_loss: 8776.7871
+
+Epoch 00358: loss did not improve from 4173.72083
+Epoch 359/2000
+ - 33s - loss: 4214.5898 - val_loss: 5477.2511
+
+Epoch 00359: loss did not improve from 4173.72083
+Epoch 360/2000
+ - 33s - loss: 4296.2237 - val_loss: 5759.2850
+
+Epoch 00360: loss did not improve from 4173.72083
+Epoch 361/2000
+ - 33s - loss: 4323.8450 - val_loss: 5215.9527
+
+Epoch 00361: loss did not improve from 4173.72083
+Epoch 362/2000
+ - 33s - loss: 4153.3727 - val_loss: 8225.2187
+
+Epoch 00362: loss improved from 4173.72083 to 4153.37265, saving model to ./weights/_weights.h5
+Epoch 363/2000
+ - 33s - loss: 4238.4120 - val_loss: 23427.9638
+
+Epoch 00363: loss did not improve from 4153.37265
+Epoch 364/2000
+ - 33s - loss: 4270.0809 - val_loss: 5397.0169
+
+Epoch 00364: loss did not improve from 4153.37265
+Epoch 365/2000
+ - 33s - loss: 4190.9773 - val_loss: 5467.6447
+
+Epoch 00365: loss did not improve from 4153.37265
+Epoch 366/2000
+ - 32s - loss: 4244.4704 - val_loss: 5286.0648
+
+Epoch 00366: loss did not improve from 4153.37265
+Epoch 367/2000
+ - 33s - loss: 4323.1129 - val_loss: 5943.5284
+
+Epoch 00367: loss did not improve from 4153.37265
+Epoch 368/2000
+ - 33s - loss: 4162.9683 - val_loss: 9952.8258
+
+Epoch 00368: loss did not improve from 4153.37265
+Epoch 369/2000
+ - 33s - loss: 4268.7009 - val_loss: 8478.0590
+
+Epoch 00369: loss did not improve from 4153.37265
+Epoch 370/2000
+ - 33s - loss: 4220.3152 - val_loss: 7060.2961
+
+Epoch 00370: loss did not improve from 4153.37265
+Epoch 371/2000
+ - 33s - loss: 4269.4968 - val_loss: 6293.6547
+
+Epoch 00371: loss did not improve from 4153.37265
+Epoch 372/2000
+ - 33s - loss: 4152.0092 - val_loss: 6009.0922
+
+Epoch 00372: loss improved from 4153.37265 to 4152.00917, saving model to ./weights/_weights.h5
+Epoch 373/2000
+ - 33s - loss: 4197.5560 - val_loss: 5776.7111
+
+Epoch 00373: loss did not improve from 4152.00917
+Epoch 374/2000
+ - 33s - loss: 4231.7692 - val_loss: 11461.2732
+
+Epoch 00374: loss did not improve from 4152.00917
+Epoch 375/2000
+ - 33s - loss: 4218.6884 - val_loss: 7367.5128
+
+Epoch 00375: loss did not improve from 4152.00917
+Epoch 376/2000
+ - 33s - loss: 4284.0827 - val_loss: 10074.0115
+
+Epoch 00376: loss did not improve from 4152.00917
+Epoch 377/2000
+ - 33s - loss: 4182.8822 - val_loss: 5157.8087
+
+Epoch 00377: loss did not improve from 4152.00917
+Epoch 378/2000
+ - 33s - loss: 4192.4297 - val_loss: 5207.1866
+
+Epoch 00378: loss did not improve from 4152.00917
+Epoch 379/2000
+ - 33s - loss: 4196.1337 - val_loss: 9873.8383
+
+Epoch 00379: loss did not improve from 4152.00917
+Epoch 380/2000
+ - 33s - loss: 4316.8338 - val_loss: 8301.4278
+
+Epoch 00380: loss did not improve from 4152.00917
+Epoch 381/2000
+ - 33s - loss: 4225.3557 - val_loss: 7294.0461
+
+Epoch 00381: loss did not improve from 4152.00917
+Epoch 382/2000
+ - 33s - loss: 4084.5717 - val_loss: 6845.1274
+
+Epoch 00382: loss improved from 4152.00917 to 4084.57174, saving model to ./weights/_weights.h5
+Epoch 383/2000
+ - 32s - loss: 4235.0301 - val_loss: 7750.8072
+
+Epoch 00383: loss did not improve from 4084.57174
+Epoch 384/2000
+ - 33s - loss: 4317.8773 - val_loss: 4906.8913
+
+Epoch 00384: loss did not improve from 4084.57174
+Epoch 385/2000
+ - 32s - loss: 4166.6002 - val_loss: 4964.2015
+
+Epoch 00385: loss did not improve from 4084.57174
+Epoch 386/2000
+ - 33s - loss: 4113.0313 - val_loss: 5108.8451
+
+Epoch 00386: loss did not improve from 4084.57174
+Epoch 387/2000
+ - 33s - loss: 4086.3062 - val_loss: 5427.8713
+
+Epoch 00387: loss did not improve from 4084.57174
+Epoch 388/2000
+ - 34s - loss: 4128.7726 - val_loss: 6004.5461
+
+Epoch 00388: loss did not improve from 4084.57174
+Epoch 389/2000
+ - 33s - loss: 4101.7295 - val_loss: 5308.8174
+
+Epoch 00389: loss did not improve from 4084.57174
+Epoch 390/2000
+ - 33s - loss: 4206.9810 - val_loss: 8593.4324
+
+Epoch 00390: loss did not improve from 4084.57174
+Epoch 391/2000
+ - 33s - loss: 4212.1445 - val_loss: 5062.1502
+
+Epoch 00391: loss did not improve from 4084.57174
+Epoch 392/2000
+ - 33s - loss: 4224.5080 - val_loss: 4856.0512
+
+Epoch 00392: loss did not improve from 4084.57174
+Epoch 393/2000
+ - 32s - loss: 4099.5783 - val_loss: 9232.2439
+
+Epoch 00393: loss did not improve from 4084.57174
+Epoch 394/2000
+ - 33s - loss: 4165.2535 - val_loss: 7495.5879
+
+Epoch 00394: loss did not improve from 4084.57174
+Epoch 395/2000
+ - 32s - loss: 4131.0003 - val_loss: 5303.9830
+
+Epoch 00395: loss did not improve from 4084.57174
+Epoch 396/2000
+ - 33s - loss: 4094.5832 - val_loss: 7877.4953
+
+Epoch 00396: loss did not improve from 4084.57174
+Epoch 397/2000
+ - 33s - loss: 4137.1155 - val_loss: 5991.4012
+
+Epoch 00397: loss did not improve from 4084.57174
+Epoch 398/2000
+ - 33s - loss: 4132.7060 - val_loss: 5472.9494
+
+Epoch 00398: loss did not improve from 4084.57174
+Epoch 399/2000
+ - 33s - loss: 4103.2508 - val_loss: 5327.6313
+
+Epoch 00399: loss did not improve from 4084.57174
+Epoch 400/2000
+ - 33s - loss: 4049.9456 - val_loss: 8202.1791
+
+Epoch 00400: loss improved from 4084.57174 to 4049.94558, saving model to ./weights/_weights.h5
+Epoch 401/2000
+ - 32s - loss: 4206.6442 - val_loss: 5460.0468
+
+Epoch 00401: loss did not improve from 4049.94558
+Epoch 402/2000
+ - 33s - loss: 4024.9284 - val_loss: 5927.7134
+
+Epoch 00402: loss improved from 4049.94558 to 4024.92839, saving model to ./weights/_weights.h5
+Epoch 403/2000
+ - 33s - loss: 3987.2753 - val_loss: 10102.7835
+
+Epoch 00403: loss improved from 4024.92839 to 3987.27532, saving model to ./weights/_weights.h5
+Epoch 404/2000
+ - 33s - loss: 4123.0878 - val_loss: 5724.0453
+
+Epoch 00404: loss did not improve from 3987.27532
+Epoch 405/2000
+ - 33s - loss: 4063.0734 - val_loss: 5741.0084
+
+Epoch 00405: loss did not improve from 3987.27532
+Epoch 406/2000
+ - 33s - loss: 4167.3864 - val_loss: 6163.5346
+
+Epoch 00406: loss did not improve from 3987.27532
+Epoch 407/2000
+ - 33s - loss: 4146.2904 - val_loss: 5826.8219
+
+Epoch 00407: loss did not improve from 3987.27532
+Epoch 408/2000
+ - 33s - loss: 4024.9887 - val_loss: 4949.7358
+
+Epoch 00408: loss did not improve from 3987.27532
+Epoch 409/2000
+ - 33s - loss: 3971.4804 - val_loss: 7802.8075
+
+Epoch 00409: loss improved from 3987.27532 to 3971.48044, saving model to ./weights/_weights.h5
+Epoch 410/2000
+ - 33s - loss: 4084.5246 - val_loss: 5304.2186
+
+Epoch 00410: loss did not improve from 3971.48044
+Epoch 411/2000
+ - 33s - loss: 4066.7810 - val_loss: 6244.9046
+
+Epoch 00411: loss did not improve from 3971.48044
+Epoch 412/2000
+ - 32s - loss: 4059.5168 - val_loss: 7249.4527
+
+Epoch 00412: loss did not improve from 3971.48044
+Epoch 413/2000
+ - 33s - loss: 4054.3794 - val_loss: 5198.4741
+
+Epoch 00413: loss did not improve from 3971.48044
+Epoch 414/2000
+ - 33s - loss: 4159.7134 - val_loss: 5418.0729
+
+Epoch 00414: loss did not improve from 3971.48044
+Epoch 415/2000
+ - 33s - loss: 3989.2456 - val_loss: 13133.1579
+
+Epoch 00415: loss did not improve from 3971.48044
+Epoch 416/2000
+ - 33s - loss: 4336.0881 - val_loss: 10170.8737
+
+Epoch 00416: loss did not improve from 3971.48044
+Epoch 417/2000
+ - 33s - loss: 4058.0228 - val_loss: 5809.5656
+
+Epoch 00417: loss did not improve from 3971.48044
+Epoch 418/2000
+ - 33s - loss: 4122.2849 - val_loss: 5037.9216
+
+Epoch 00418: loss did not improve from 3971.48044
+Epoch 419/2000
+ - 33s - loss: 3984.2953 - val_loss: 14239.9401
+
+Epoch 00419: loss did not improve from 3971.48044
+Epoch 420/2000
+ - 33s - loss: 4147.0909 - val_loss: 5226.6193
+
+Epoch 00420: loss did not improve from 3971.48044
+Epoch 421/2000
+ - 33s - loss: 4067.9884 - val_loss: 6383.7938
+
+Epoch 00421: loss did not improve from 3971.48044
+Epoch 422/2000
+ - 33s - loss: 4026.3093 - val_loss: 5107.0407
+
+Epoch 00422: loss did not improve from 3971.48044
+Epoch 423/2000
+ - 33s - loss: 4075.7998 - val_loss: 5611.5525
+
+Epoch 00423: loss did not improve from 3971.48044
+Epoch 424/2000
+ - 33s - loss: 4043.1792 - val_loss: 10980.4454
+
+Epoch 00424: loss did not improve from 3971.48044
+Epoch 425/2000
+ - 33s - loss: 4096.6480 - val_loss: 5779.9407
+
+Epoch 00425: loss did not improve from 3971.48044
+Epoch 426/2000
+ - 33s - loss: 4049.3671 - val_loss: 5034.7013
+
+Epoch 00426: loss did not improve from 3971.48044
+Epoch 427/2000
+ - 32s - loss: 4012.8114 - val_loss: 5183.8291
+
+Epoch 00427: loss did not improve from 3971.48044
+Epoch 428/2000
+ - 33s - loss: 4092.0234 - val_loss: 5012.1220
+
+Epoch 00428: loss did not improve from 3971.48044
+Epoch 429/2000
+ - 32s - loss: 4096.7212 - val_loss: 10102.0557
+
+Epoch 00429: loss did not improve from 3971.48044
+Epoch 430/2000
+ - 33s - loss: 4099.8084 - val_loss: 13498.5582
+
+Epoch 00430: loss did not improve from 3971.48044
+Epoch 431/2000
+ - 32s - loss: 4043.9044 - val_loss: 8116.3033
+
+Epoch 00431: loss did not improve from 3971.48044
+Epoch 432/2000
+ - 33s - loss: 4076.2708 - val_loss: 8004.6619
+
+Epoch 00432: loss did not improve from 3971.48044
+Epoch 433/2000
+ - 33s - loss: 4023.6851 - val_loss: 5291.1107
