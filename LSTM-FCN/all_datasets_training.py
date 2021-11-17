@@ -1,13 +1,13 @@
 import os
 
-from keras import backend as K
-from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Dropout, Flatten, Lambda
-from keras.layers import Input, Dense, LSTM, CuDNNLSTM, concatenate, Activation, GRU, SimpleRNN
-from keras.models import Model
+
+from tensorflow.keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Dropout, Flatten, Lambda
+from tensorflow.keras.layers import Input, Dense, LSTM, concatenate, Activation, GRU, SimpleRNN #, CuDNNLSTM
+from tensorflow.keras.models import Model
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model
-from utils.layer_utils import AttentionLSTM
+#from utils.layer_utils import AttentionLSTM
 from tensorflow.signal import rfft
 
 import tensorflow as tf
@@ -99,6 +99,8 @@ def generate_lstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
     return model
 
 """
+
+"""
 def generate_alstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
 
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -133,7 +135,7 @@ def generate_alstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
     # add load model code here to fine-tune
 
     return model
-
+"""
 
 if __name__ == "__main__":
 
@@ -145,13 +147,7 @@ if __name__ == "__main__":
     base_log_name = '%s_%d_cells_new_datasets.csv'
     base_weights_dir = '%s_%d_cells_weights/'
 
-    MODELS = [
-        ('lstmfcn', generate_lstmfcn),
-        ('alstmfcn', generate_alstmfcn),
-    ]
-
-    # Number of cells
-    CELLS = [64] #[8, 64, 128]
+  
 
     # Normalization scheme
     # Normalize = False means no normalization will be done
@@ -161,9 +157,9 @@ if __name__ == "__main__":
 
     #for model_id, (MODEL_NAME, model_fn) in enumerate(MODELS):
     model_id = 0
-    MODEL_NAME = MODELS[model_id][0]
-    model_fn = MODELS[model_id][1]
-    cell = CELLS[0]
+    MODEL_NAME = 'lstmfcn'
+    model_fn = generate_lstmfcn
+    cell = 64
         
         #if model_id == 0:
         #    continue
@@ -184,7 +180,7 @@ if __name__ == "__main__":
     NB_CLASS = 1#1 #41#NB_CLASSES_LIST[did]
 
     # release GPU Memory
-    K.clear_session()
+
 
     file = open(base_log_name % (MODEL_NAME, cell), 'a+')
 
