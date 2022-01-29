@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import datetime
 
 
 import warnings
@@ -25,6 +26,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 import pdb
+import pickle
 
 mpl.style.use('seaborn-paper')
 warnings.simplefilter('ignore', category=DeprecationWarning)
@@ -34,8 +36,8 @@ if not os.path.exists('weights/'):
     os.makedirs('weights/')
 
 
-def train_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, epochs=50, batch_size=128, val_subset=None,
-                cutoff=None, normalize_timeseries=False, learning_rate=1e-3):
+def train_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, MAX_SEQUENCE_LENGTH, epochs=50, batch_size=128, val_subset=None,
+                cutoff=None, normalize_timeseries=False, learning_rate=1e-3, reload=False):
     """
     Trains a provided Model, given a dataset id.
 
@@ -60,8 +62,7 @@ def train_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, epochs=50,
             If 2: Performs full dataset z-normalization.
         learning_rate: Initial learning rate.
     """
-    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id, NUM_FRAMES,
-                                                                      normalize_timeseries=normalize_timeseries)
+    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id, NUM_FRAMES, 	      MAX_SEQUENCE_LENGTH, normalize_timeseries=normalize_timeseries)
     #pdb.set_trace()
     #max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
 
@@ -127,23 +128,28 @@ def train_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, epochs=50,
     reduce_lr = ReduceLROnPlateau(monitor='val_loss', patience=10, mode='auto',
                                   factor=factor, cooldown=0, min_lr=1e-4, verbose=2)
 
-    tensorboard_callback = TensorBoard(log_dir="logs", histogram_freq=1)
+    log_dir = "logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     callback_list = [model_checkpoint, reduce_lr, tensorboard_callback] #, reduce_lr]
 
     optm = Adam(lr=learning_rate)
 
     model.compile(optimizer='adam', loss='mean_squared_error')
+ 
+    if(reload):
+        model.load_weights("./weights/_weights.h5")
+
     #model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 
     #pdb.set_trace()
-    model.fit(np.expand_dims(X_train,1), y_train, batch_size=batch_size, epochs=epochs, callbacks=callback_list, verbose=2, validation_data=(np.expand_dims(X_test,1), y_test))
+    model.fit(np.expand_dims(X_train,1), y_train, batch_size=batch_size, epochs=epochs, callbacks=callback_list, verbose=1, validation_data=(np.expand_dims(X_test,1), y_test))
     #model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, callbacks=callback_list, verbose=2, validation_data=(X_test, y_test))
 
 
 
-def evaluate_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, batch_size=128, test_data_subset=None,
+def evaluate_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, MAX_SEQUENCE_LENGTH, batch_size=128, test_data_subset=None,
                    cutoff=None, normalize_timeseries=False):
     """
     Evaluates a given Keras Model on the provided dataset.
@@ -169,8 +175,7 @@ def evaluate_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, batch_s
     Returns:
         The test set accuracy of the model.
     """
-    _, _, X_test, y_test, is_timeseries = load_dataset_at(dataset_id, NUM_FRAMES,
-                                                          normalize_timeseries=normalize_timeseries, evaluation=True)
+    _, _, X_test, y_test, is_timeseries = load_dataset_at(dataset_id, NUM_FRAMES, MAX_SEQUENCE_LENGTH, normalize_timeseries=normalize_timeseries, evaluation=True)
                                                           
     """
    
@@ -201,11 +206,11 @@ def evaluate_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, batch_s
     optm = Adam(lr=1e-3)
     model.compile(optimizer=optm, loss='mean_absolute_error')
     #model.compile(optimizer=optm, loss='categorical_crossentropy', metrics=['accuracy'])
-
+    #pdb.set_trace()
     model.load_weights("./weights/_weights.h5")
     print("Weights loaded from ", "./weights/%s_weights.h5" % dataset_prefix)
 
-
+    
     #pdb.set_trace()
     print("\nEvaluating : ")
     loss = model.evaluate(np.expand_dims(X_test,1), y_test, batch_size=batch_size)
@@ -227,45 +232,73 @@ def evaluate_model(model: Model, dataset_id, dataset_prefix, NUM_FRAMES, batch_s
     #plt.show()
     """
     
+    """
     plt.hist(results[:,0]-y_test, bins=20)
     plt.xlabel('Error (Hz)')
     plt.title("Error distribution: " + str(NUM_FRAMES) + " channels")
     plt.show()
+    """
     
-    
-    frequencies = np.zeros((41))
-    f_elements = int(np.sum(y_test == 100))
-    frequency_dist = np.zeros((5, f_elements))
     #pdb.set_trace()
+    y_test, results = (np.array(t) for t in zip(*sorted(zip(y_test, results))))
+    unique_elements = np.unique(y_test)
+    frequencies = np.zeros((unique_elements.size)) #41
+    f_sizes = {}
+    for i in unique_elements:
+        f_sizes[i] = np.count_nonzero(y_test == i)
+
+    #f_elements = int(np.sum(y_test == 100))
+    #frequency_dist_num = 4
+    frequency_dist = {} #np.zeros((frequency_dist_num, np.max(f_sizes)))
+    #pdb.set_trace()
+    past_freq = y_test[0]
+    #count_freq = []
     for idx,s in enumerate(y_test):
-        frequencies[int((s-100)/10)] += np.abs(results[idx,0] - s)
-        if s % 100 == 0:
-            frequency_dist[int(s/100)-1, idx % f_elements] = results[idx,0]
+        #print(s, np.abs(results[idx][0] - s))
+        frequencies[int((s)/10-1)] += np.abs(results[idx][0] - s)
+        if s % 50 == 0:
+            if past_freq != s:
+                past_freq = s
+                #count_freq = []
+                frequency_dist[s] = np.array([])
+            frequency_dist[s] = np.append(frequency_dist[s],np.abs(results[idx][0]-s))
+            #frequency_dist[int(s/50)-1, count_freq] = results[idx][0]
+            
+            #count_freq += 1
         
     #pdb.set_trace()
-    frequencies /= np.sum(y_test == 100)
-    
+
+    for idx in range(frequencies.size):
+        frequencies[idx] /= f_sizes[idx*10+10] #np.sum(y_test == 100)
+    #pdb.set_trace()
     fig = plt.figure(1)
-    subplot_num = 511
-    for idx in range(5):
+    subplot_num = 811
+    #for idx in range(5):
+    for freq,arr in frequency_dist.items():
         plt.subplot(subplot_num)
-        plt.hist(frequency_dist[idx,:])
+        #plt.hist(arr, density=True, bins=20)
+        plt.plot(arr)
         subplot_num += 1
-        plt.title("Error distribution for " + str((idx+1)*100) +  "Hz")
+        plt.title("Error distribution for " + str(freq) +  "Hz")
         
     plt.xlabel('Frequency (Hz)')
-    fig.tight_layout()
+    fig.tight_layout(pad=2.0)
     plt.show()
+    pickle.dump(fig, open('frequency_dist.fig.pickle', 'wb'))
+    #plt.savefig('frequency_dist.png')
     
     
-    
-    
-    plt.plot(list(range(100,510,10)), frequencies)
+    fig = plt.figure(2)   
+    #plt.plot(list(range(100,510,10)), frequencies)
+    plt.plot(list(range(10,410,10)), frequencies)
     
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Mean absolute error (Hz)')
     plt.title("Mean absolute error for each frequency at: " + str(NUM_FRAMES) + " channels")
     plt.show()
+    pickle.dump(fig, open('frequency_dist2.fig.pickle', 'wb'))
+    #plt.savefig('frequency_dist2.png')
+
     
     
     

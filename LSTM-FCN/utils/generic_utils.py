@@ -4,10 +4,14 @@ import os
 import matplotlib as mpl
 import matplotlib.pylab as plt
 import pdb
+from tqdm import tqdm
 
 mpl.style.use('seaborn-paper')
 
 from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
+
+freq_dirs = ["../data_4m3"] #["../data_4m2", "../data_4m3",  "../data_2m", "../data_3m2", "../data4"] #, "../data_low"] #["../data_non"] #["../data_4m", "../data_3m"] #["../data_lower"] #["../data_low", "../data4"] #["../data4"] #["../data3", "../data4"]
+
 
 """
 def get_data(split):
@@ -58,16 +62,65 @@ def get_data(split):
     return final_time_series, final_time_labels
 
 """
+"""
+def get_data(split, NUM_FRAMES, MAX_SEQUENCE_LENGTH):
 
-def get_data(split, NUM_FRAMES):
+    NUM_SAMPLES = MAX_SEQUENCE_LENGTH #40 #80 #70
+    #NUM_CHANNELS = 16 #14
+    first = True
+    #NUM_FRAMES = 30
+    real_size = NUM_SAMPLES*NUM_FRAMES 
 
-    NUM_SAMPLES = 80 #70
+    #pdb.set_trace()
+    final_time_series = np.array([])
+    final_time_labels = np.array([])
+
+    for freq_dir in freq_dirs:
+        NUM_FILES = len(os.listdir(freq_dir + '/' + str(100) + '/' + split))
+        for i in tqdm(range(10,410,10)):#510,10)):
+            residue = []
+            for j in range(1,NUM_FILES+1):
+                freq_path = os.path.join(freq_dir, str(i), split, str(j) + ".csv")
+                time_series = pd.read_csv(freq_path, header=None).to_numpy().flatten()
+                #time_series_r = time_series[:,NUM_SAMPLES:]
+                #pdb.set_trace()
+                time_series = np.concatenate((residue, time_series))
+                NUM_SEQUENCES = len(time_series)//(real_size)
+                
+                if len(time_series) % real_size > 0:
+                    residue = time_series[NUM_SEQUENCES*real_size:]
+                else:
+                    residue = []
+
+                if NUM_SEQUENCES > 0:
+                    tmp_time_series = np.resize(time_series,(NUM_SEQUENCES, real_size))
+
+                    if not first:
+
+                        final_time_series = np.concatenate((final_time_series, tmp_time_series)) #np.expand_dims(time_series,0)))
+                        final_time_labels = np.concatenate((final_time_labels, [i]*(NUM_SEQUENCES)))
+                    else:
+                        final_time_series = tmp_time_series #np.expand_dims(time_series,0)
+                        final_time_labels = np.array([i]*(NUM_SEQUENCES))
+                        first = False
+                
+
+                
+            
+    #pdb.set_trace()
+    print('Samples size:', final_time_series.shape)
+    return final_time_series, final_time_labels
+
+"""
+
+def get_data(split, NUM_FRAMES, MAX_SEQUENCE_LENGTH):
+
+    NUM_SAMPLES = MAX_SEQUENCE_LENGTH #40 #80 #70
     #NUM_CHANNELS = 16 #14
     first = True
     #NUM_FRAMES = 30
     
 
-    freq_dirs = ["../data3", "../data4"]
 
     final_time_series = np.array([])
     final_time_labels = np.array([])
@@ -75,12 +128,17 @@ def get_data(split, NUM_FRAMES):
     #for i in range(100, 550, 50):
     for freq_dir in freq_dirs:
         NUM_FILES = len(os.listdir(freq_dir + '/' + str(100) + '/' + split))
-        for i in range(100,510,10):
+        for i in tqdm(range(10,410,10)):#510,10)):
             residue = 0
             tmp_time_series = []
             for j in range(1,NUM_FILES+1):
                 freq_path = os.path.join(freq_dir, str(i), split, str(j) + ".csv")
                 time_series = pd.read_csv(freq_path, header=None).to_numpy()
+                #time_series_r = time_series[:,NUM_SAMPLES:]
+                #pdb.set_trace()
+                if time_series.shape[1] < NUM_SAMPLES:
+                    num_frames = len(time_series.flatten())//NUM_SAMPLES
+                    time_series = np.resize(time_series,(num_frames,NUM_SAMPLES))
                 time_series = time_series[:,:NUM_SAMPLES]
                 NUM_CHANNELS = time_series.shape[0]
 
@@ -105,7 +163,9 @@ def get_data(split, NUM_FRAMES):
                 
             
     #pdb.set_trace()
+    print('Samples size:', final_time_series.shape)
     return final_time_series, final_time_labels
+
 
 
 
@@ -116,7 +176,7 @@ def get_data(split, NUM_FRAMES):
     NUM_CHANNELS = 15#16 #14
     first = True
     
-    freq_dirs = ["../data3", "../data4"]
+    freq_dirs = ["../data4"] #["../data3", "../data4"]
         
 
     final_time_series = np.array([])
@@ -128,7 +188,7 @@ def get_data(split, NUM_FRAMES):
         NUM_FILES = len(os.listdir(freq_dir + '/' + str(100) + '/' + split))
         EFFECTIVE_FILES = NUM_FILES - NUM_FILES % NUM_FRAMES
 
-        for i in range(100,510,10):
+        for i in tqdm(range(100,510,10)):
             for j in range(1,NUM_FILES+1):
                 freq_path = os.path.join(freq_dir, str(i), split, str(j) + ".csv")
                 time_series = pd.read_csv(freq_path, header=None).to_numpy()
@@ -166,7 +226,8 @@ def get_data(split, NUM_FRAMES):
                         final_time_labels = np.array([i])
                         first = False
 
-    pdb.set_trace()
+    #pdb.set_trace()
+    print('Samples size:', final_time_series.shape)
     return final_time_series, final_time_labels
 
 """
@@ -271,7 +332,7 @@ def get_data(split):
 
     return final_time_series, final_time_labels
 """
-def load_dataset_at(index, NUM_FRAMES, normalize_timeseries=False, verbose=True, evaluation=False) -> (np.array, np.array):
+def load_dataset_at(index, NUM_FRAMES, MAX_SEQUENCE_LENGTH, normalize_timeseries=False, verbose=True, evaluation=False) -> (np.array, np.array):
     """
     Loads a Univaraite UCR Dataset indexed by `utils.constants`.
 
@@ -298,18 +359,18 @@ def load_dataset_at(index, NUM_FRAMES, normalize_timeseries=False, verbose=True,
     
     #pdb.set_trace()
     if evaluation:
-        split = "test"#"validation" #"test"
+        split = "test" #"validation" #"test"
         X_train = []
         y_train = []
     
     else:
         split = "train"
         
-        X_train, y_train = get_data(split, NUM_FRAMES)
+        X_train, y_train = get_data(split, NUM_FRAMES, MAX_SEQUENCE_LENGTH)
         
         split = "validation"
     
-    X_test, y_test = get_data(split, NUM_FRAMES)
+    X_test, y_test = get_data(split, NUM_FRAMES, MAX_SEQUENCE_LENGTH)
 
 
     is_timeseries = True # assume all input data is univariate time series
